@@ -184,6 +184,10 @@ def sort_files(path_file):
 
 # ---------------------------------------------------------------------------
 
+
+if __name__ == '__main__':
+
+
 path_start_folder = Path(sys.argv[-1])
 
 list_path_first = list(path_start_folder.iterdir())
