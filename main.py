@@ -10,11 +10,14 @@ import logging
 import string
 import re
 import os
+from time import time
 
 """
 --source [-s] picture
 --output [-o]
 """
+
+print(r"For example:  py .\main.py -s picture  ")
 
 parser = argparse.ArgumentParser(description="Sorting folder")
 parser.add_argument("--source", "-s", help="Source folder", required=True)
@@ -38,6 +41,7 @@ def grabs_folder(path: Path) -> None:
 
 def copy_file(path: Path) -> None:
     global count_dub
+    timer = time()
     for el in path.iterdir():
         if el.is_file():
             name_el, ext = el.stem, el.suffix
@@ -56,8 +60,9 @@ def copy_file(path: Path) -> None:
 
                 else:
                     count_dub += 1
-                    print(count_dub)
-                    new_name = f'{norma_name}_{count_dub}{ext}'
+                    # print(count_dub)
+                    logging.debug(f'Time for count_dub ({count_dub}) = {time() - timer}')
+                    new_name = f'{el_norma}_{count_dub}{ext}'
                     new_path_norma_name = os.path.join(new_path, new_name)
                     copy(el, new_path_norma_name)
 
@@ -172,7 +177,8 @@ def choice_delete(path: Path) -> None:
 
 if __name__ == "__main__":
 
-    logging.basicConfig(level=logging.ERROR, format="%(threadName)s %(message)s")
+    logging.basicConfig(level=logging.DEBUG, format="%(threadName)s %(message)s")
+    # logging.basicConfig(level=logging.ERROR, format="%(threadName)s %(message)s")
     print(source, output)
     folders.append(source)
     grabs_folder(source)
